@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import api from '../config/api'
 import { motion } from 'framer-motion'
 import { Plus, Wallet, Edit, Trash2, CreditCard, Banknote, Building2 } from 'lucide-react'
 import Card from '../components/ui/Card'
@@ -31,7 +31,7 @@ export default function Wallets() {
 
   const fetchWallets = async () => {
     try {
-      const response = await axios.get('/api/wallets')
+      const response = await api.get('/api/wallets')
       setWallets(response.data.wallets || [])
     } catch (error) {
       console.error('Failed to fetch wallets:', error)
@@ -53,7 +53,7 @@ export default function Wallets() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this wallet? This action cannot be undone.')) return
     try {
-      await axios.delete(`/api/wallets/${id}`)
+      await api.delete(`/api/wallets/${id}`)
       fetchWallets()
     } catch (error: any) {
       alert(error.response?.data?.error || 'Failed to delete wallet')
@@ -220,9 +220,9 @@ function WalletModal({
       }
 
       if (wallet) {
-        await axios.put(`/api/wallets/${wallet.id}`, payload)
+        await api.put(`/api/wallets/${wallet.id}`, payload)
       } else {
-        await axios.post('/api/wallets', payload)
+        await api.post('/api/wallets', payload)
       }
       onSuccess()
       onClose()

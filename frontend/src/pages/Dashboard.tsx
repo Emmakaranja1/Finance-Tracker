@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import api from '../config/api'
 import { motion } from 'framer-motion'
 import { TrendingUp, TrendingDown, Wallet, Target, DollarSign,  Calendar, PieChart as PieChartIcon } from 'lucide-react'
 import Card from '../components/ui/Card'
@@ -43,9 +43,9 @@ export default function Dashboard() {
   const fetchDashboardData = async () => {
     try {
       const [netSavingsRes, spendingRes, trendsRes] = await Promise.all([
-        axios.get('/api/analytics/net-savings'),
-        axios.get('/api/analytics/spending-by-category'),
-        axios.get('/api/analytics/monthly-trends?months=6'),
+        api.get('/api/analytics/net-savings'),
+        api.get('/api/analytics/spending-by-category'),
+        api.get('/api/analytics/monthly-trends?months=6'),
       ])
 
       setNetSavings(netSavingsRes.data)

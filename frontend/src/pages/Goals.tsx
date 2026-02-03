@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import api from '../config/api'
 import { motion } from 'framer-motion'
 import { Plus, Target } from 'lucide-react'
 import Card from '../components/ui/Card'
@@ -22,7 +22,7 @@ export default function Goals() {
 
   const fetchGoals = async () => {
     try {
-      const response = await axios.get('/api/goals')
+      const response = await api.get('/api/goals')
       setGoals(response.data.goals || [])
     } catch (error) {
       console.error('Failed to fetch goals:', error)
@@ -44,7 +44,7 @@ export default function Goals() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this goal?')) return
     try {
-      await axios.delete(`/api/goals/${id}`)
+      await api.delete(`/api/goals/${id}`)
       fetchGoals()
     } catch (error) {
       alert('Failed to delete goal')
@@ -233,9 +233,9 @@ function GoalModal({
       }
 
       if (goal) {
-        await axios.put(`/api/goals/${goal.id}`, payload)
+        await api.put(`/api/goals/${goal.id}`, payload)
       } else {
-        await axios.post('/api/goals', payload)
+        await api.post('/api/goals', payload)
       }
       onSuccess()
       onClose()

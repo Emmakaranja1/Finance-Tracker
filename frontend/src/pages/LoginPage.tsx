@@ -38,7 +38,12 @@ export default function LoginPage() {
       await login(data.email, data.password)
       navigate('/dashboard') // Explicitly navigate after successful login
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to login. Please try again.')
+      const apiError = err?.response?.data?.error
+      const message =
+        (typeof apiError === 'string' ? apiError : apiError?.message) ||
+        err?.message ||
+        'Failed to login. Please try again.'
+      setError(message)
     } finally {
       setIsLoading(false)
     }

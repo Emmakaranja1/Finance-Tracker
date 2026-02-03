@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import api from '../config/api'
 import { Plus, Edit, Trash2 } from 'lucide-react'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
@@ -36,9 +36,9 @@ export default function Transactions() {
     try {
       setLoading(true)
       const [txRes, catRes, walletRes] = await Promise.all([
-        axios.get('/api/transactions', { params: filters }),
-        axios.get('/api/categories'),
-        axios.get('/api/wallets'),
+        api.get('/api/transactions', { params: filters }),
+        api.get('/api/categories'),
+        api.get('/api/wallets'),
       ])
       setTransactions(txRes.data.transactions || [])
       setCategories(catRes.data.categories || [])
@@ -53,7 +53,7 @@ export default function Transactions() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this transaction?')) return
     try {
-      await axios.delete(`/api/transactions/${id}`)
+      await api.delete(`/api/transactions/${id}`)
       fetchData()
     } catch (error) {
       console.error('Failed to delete transaction:', error)
@@ -278,9 +278,9 @@ function TransactionModal({
   const onSubmit = async (data: any) => {
     try {
       if (transaction) {
-        await axios.put(`/api/transactions/${transaction.id}`, data)
+        await api.put(`/api/transactions/${transaction.id}`, data)
       } else {
-        await axios.post('/api/transactions', data)
+        await api.post('/api/transactions', data)
       }
       onSuccess()
       onClose()

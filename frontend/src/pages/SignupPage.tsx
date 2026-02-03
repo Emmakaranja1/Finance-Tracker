@@ -43,7 +43,12 @@ export default function SignupPage() {
       await signup(data.email, data.password, data.fullName || undefined)
       navigate('/login') // Navigate to login page after successful signup
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to sign up. Please try again.')
+      const apiError = err?.response?.data?.error
+      const message =
+        (typeof apiError === 'string' ? apiError : apiError?.message) ||
+        err?.message ||
+        'Failed to sign up. Please try again.'
+      setError(message)
     } finally {
       setIsLoading(false)
     }
