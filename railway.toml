@@ -1,4 +1,0 @@
-[build]
-builder = "nixpacks"
-buildCommand = "npm install --prefix backend"
-startCommand = "cd backend && npm start"
