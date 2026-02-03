@@ -1,5 +1,8 @@
 [phases.setup]
 node_version = "18"
 
-[start]
-cmd = "cd backend && npm start"
+[phases.build]
+cmd = "npm install --prefix backend"
+
+[phases.start]
+cmd = "npm start --prefix backend"
