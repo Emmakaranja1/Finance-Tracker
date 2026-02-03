@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Lock, Eye, EyeOff, Shield } from 'lucide-react'
 import Card from '../components/ui/Card'
-import Input from '../components/ui/Input'
 import Button from '../components/ui/Button'
 import api from '../config/api'
 
