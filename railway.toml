@@ -1,2 +1,5 @@
 [build]
 builder = "nixpacks.toml"
+
+[deploy]
+startCommand = "./start.sh"
