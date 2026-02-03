@@ -7,6 +7,8 @@ import Button from '../components/ui/Button'
 import Modal from '../components/ui/Modal'
 import Input from '../components/ui/Input'
 import { SavingsGoal } from '../types'
+import { useAuth } from '../contexts/AuthContext'
+import { formatCurrency } from '../config/currency'
 import { useForm } from 'react-hook-form'
 import { format } from 'date-fns'
 
@@ -15,6 +17,7 @@ export default function Goals() {
   const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingGoal, setEditingGoal] = useState<SavingsGoal | null>(null)
+  const { user } = useAuth()
 
   useEffect(() => {
     fetchGoals()
@@ -122,10 +125,10 @@ export default function Goals() {
                     </div>
                     <div className="flex justify-between mt-2 text-sm">
                       <span className="text-gray-600 dark:text-gray-400">
-                        ${(Number(goal.currentAmount) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        {formatCurrency(Number(goal.currentAmount) || 0, user?.currency || 'USD')}
                       </span>
                       <span className="text-gray-900 dark:text-white font-medium">
-                        ${(Number(goal.targetAmount) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        {formatCurrency(Number(goal.targetAmount) || 0, user?.currency || 'USD')}
                       </span>
                     </div>
                   </div>

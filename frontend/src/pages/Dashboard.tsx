@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../config/api'
+import { useAuth } from '../contexts/AuthContext'
+import { formatCurrency } from '../config/currency'
 import { motion } from 'framer-motion'
 import { TrendingUp, TrendingDown, Wallet, Target, DollarSign,  Calendar, PieChart as PieChartIcon } from 'lucide-react'
 import Card from '../components/ui/Card'
@@ -35,6 +37,7 @@ export default function Dashboard() {
   const [spendingByCategory, setSpendingByCategory] = useState<SpendingByCategory[]>([])
   const [monthlyTrends, setMonthlyTrends] = useState<MonthlyTrend[]>([])
   const [loading, setLoading] = useState(true)
+  const { user } = useAuth()
 
   useEffect(() => {
     fetchDashboardData()
@@ -84,7 +87,7 @@ export default function Dashboard() {
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Net Savings</p>
               <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                ${(netSavings?.netSavings ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {formatCurrency(netSavings?.netSavings ?? 0, user?.currency || 'USD')}
               </p>
             </div>
             <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-lg">
@@ -98,7 +101,7 @@ export default function Dashboard() {
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Total Income</p>
               <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                ${(netSavings?.totalIncome ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {formatCurrency(netSavings?.totalIncome ?? 0, user?.currency || 'USD')}
               </p>
             </div>
             <div className="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
@@ -112,7 +115,7 @@ export default function Dashboard() {
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Total Expenses</p>
               <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                ${(netSavings?.totalExpenses ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {formatCurrency(netSavings?.totalExpenses ?? 0, user?.currency || 'USD')}
               </p>
             </div>
             <div className="p-3 bg-red-100 dark:bg-red-900/20 rounded-lg">
@@ -126,7 +129,7 @@ export default function Dashboard() {
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Total Balance</p>
               <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                ${(netSavings?.totalBalance ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {formatCurrency(netSavings?.totalBalance ?? 0, user?.currency || 'USD')}
               </p>
             </div>
             <div className="p-3 bg-purple-100 dark:bg-purple-900/20 rounded-lg">

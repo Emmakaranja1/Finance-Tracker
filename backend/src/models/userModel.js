@@ -6,13 +6,14 @@ export const findUserByEmail = async (email) => {
   return result.rows[0];
 };
 
-export const createUser = async (email, password, fullName) => {
+export const createUser = async (email, password, fullName, currency) => {
   const passwordHash = await bcrypt.hash(password, 10);
+  const normalizedCurrency = currency || 'USD';
   const result = await pool.query(
-    `INSERT INTO users (email, password_hash, full_name)
-     VALUES ($1, $2, $3)
+    `INSERT INTO users (email, password_hash, full_name, currency)
+     VALUES ($1, $2, $3, $4)
      RETURNING id, email, full_name, currency, theme`,
-    [email, passwordHash, fullName || null]
+    [email, passwordHash, fullName || null, normalizedCurrency]
   );
   return result.rows[0];
 };

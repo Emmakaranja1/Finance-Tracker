@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import api from '../config/api'
 import { Plus, Edit, Trash2 } from 'lucide-react'
 import Card from '../components/ui/Card'
@@ -9,6 +9,7 @@ import Modal from '../components/ui/Modal'
 import { Table, TableHead, TableHeader, TableBody, TableRow, TableCell } from '../components/ui/Table'
 import Badge from '../components/ui/Badge'
 import { Transaction, Category, Wallet } from '../types'
+import { formatCurrency } from '../config/currency'
 import { useForm } from 'react-hook-form'
 import { format } from 'date-fns'
 
@@ -27,6 +28,15 @@ export default function Transactions() {
     startDate: '',
     endDate: '',
   })
+
+  const walletCurrencyMap = useMemo(
+    () =>
+      wallets.reduce<Record<string, string>>((acc, w) => {
+        acc[w.id] = w.currency || 'USD'
+        return acc
+      }, {}),
+    [wallets]
+  )
 
   useEffect(() => {
     fetchData()
@@ -171,7 +181,11 @@ export default function Transactions() {
                   <TableCell>{tx.walletName || '-'}</TableCell>
                   <TableCell>
                     <span className={tx.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
-                      {tx.type === 'income' ? '+' : '-'}${Number(tx.amount).toFixed(2)}
+                      {tx.type === 'income' ? '+' : '-'}
+                      {formatCurrency(
+                        Math.abs(Number(tx.amount) || 0),
+                        walletCurrencyMap[tx.walletId] || 'USD'
+                      )}
                     </span>
                   </TableCell>
                   <TableCell>

@@ -48,6 +48,7 @@ export default function Settings() {
     { value: 'EUR', label: 'EUR - Euro' },
     { value: 'GBP', label: 'GBP - British Pound' },
     { value: 'JPY', label: 'JPY - Japanese Yen' },
+    { value: 'KES', label: 'KES - Kenyan Shilling' },
   ]
 
   return (

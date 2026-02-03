@@ -9,6 +9,7 @@ import Input from '../components/ui/Input'
 import Select from '../components/ui/Select'
 import Badge from '../components/ui/Badge'
 import { Wallet as WalletType } from '../types'
+import { formatCurrency } from '../config/currency'
 import { useForm } from 'react-hook-form'
 
 const walletIcons = {
@@ -117,7 +118,8 @@ export default function Wallets() {
                   <div className="mb-4">
                     <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Balance</p>
                     <p className={`text-2xl font-bold ${Number(wallet.balance) >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                      {Number(wallet.balance) >= 0 ? '+' : ''}${Number(wallet.balance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      {Number(wallet.balance) >= 0 ? '+' : '-'}
+                      {formatCurrency(Math.abs(Number(wallet.balance) || 0), wallet.currency || 'USD')}
                     </p>
                     <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">{wallet.currency}</p>
                   </div>
@@ -272,6 +274,7 @@ function WalletModal({
               { value: 'EUR', label: 'EUR' },
               { value: 'GBP', label: 'GBP' },
               { value: 'JPY', label: 'JPY' },
+              { value: 'KES', label: 'KES' },
             ]}
             {...register('currency')}
           />
